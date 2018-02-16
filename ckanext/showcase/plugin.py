@@ -203,26 +203,27 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
         if pkg_dict['type'] != 'showcase':
             return pkg_dict
 
-        # Add a display url for the Showcase image to the pkg dict so template
-        # has access to it.
-        image_url = pkg_dict.get('image_url')
-        pkg_dict[u'image_display_url'] = image_url
-        if image_url and not image_url.startswith('http'):
-            pkg_dict[u'image_url'] = image_url
-            pkg_dict[u'image_display_url'] = \
-                h.url_for_static('uploads/{0}/{1}'
-                                 .format(DATASET_TYPE_NAME,
-                                         pkg_dict.get('image_url')),
-                                 qualified=True)
+        if not context.get('reindexing'):
+            # Add a display url for the Showcase image to the pkg dict so template
+            # has access to it.
+            image_url = pkg_dict.get('image_url')
+            pkg_dict[u'image_display_url'] = image_url
+            if image_url and not image_url.startswith('http'):
+                pkg_dict[u'image_url'] = image_url
+                pkg_dict[u'image_display_url'] = \
+                    h.url_for_static('uploads/{0}/{1}'
+                                     .format(DATASET_TYPE_NAME,
+                                             pkg_dict.get('image_url')),
+                                     qualified=True)
 
-        # Add dataset count
-        pkg_dict[u'num_datasets'] = len(
-            tk.get_action('ckanext_showcase_package_list')(
-                context, {'showcase_id': pkg_dict['id']}))
+            # Add dataset count
+            pkg_dict[u'num_datasets'] = len(
+                tk.get_action('ckanext_showcase_package_list')(
+                    context, {'showcase_id': pkg_dict['id']}))
 
-        # Rendered notes
-        pkg_dict[u'showcase_notes_formatted'] = \
-            h.render_markdown(pkg_dict['notes'])
+            # Rendered notes
+            pkg_dict[u'showcase_notes_formatted'] = \
+                h.render_markdown(pkg_dict['notes'])
         return pkg_dict
 
     def after_show(self, context, pkg_dict):
