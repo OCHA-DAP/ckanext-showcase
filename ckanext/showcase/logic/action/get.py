@@ -114,18 +114,20 @@ def package_showcase_list(context, data_dict):
     showcase_id_list = ShowcasePackageAssociation.get_showcase_ids_for_package(
         validated_data_dict['package_id'])
 
+    model = context["model"]
+    q = model.Session.query(model.Package) \
+        .filter(model.Package.type == 'showcase') \
+        .filter(model.Package.state == 'active') \
+        .filter(model.Package.id.in_(showcase_id_list))
+
     showcase_list = []
-    if showcase_id_list is not None:
-        for showcase_id in showcase_id_list:
-            try:
-                showcase = toolkit.get_action('package_show')(
-                    context,
-                    {'id': showcase_id}
-                )
-                showcase_list.append(showcase)
-            except NotAuthorized:
-                log.debug('Not authorized to access Package with ID: '
-                          + str(showcase_id))
+    for pkg in q.all():
+        _pkg = model_dictize.package_dictize(pkg, context)
+        img_url_list = [i.get('value') for i in _pkg.get('extras') if i.get('state') == 'active' and i.get('key') == 'image_url']
+        if img_url_list:
+            _pkg['img_url'] = img_url_list[0]
+        showcase_list.append(_pkg)
+
     return showcase_list
 
 
