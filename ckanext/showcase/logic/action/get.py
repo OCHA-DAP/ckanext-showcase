@@ -125,7 +125,15 @@ def package_showcase_list(context, data_dict):
         _pkg = model_dictize.package_dictize(pkg, context)
         img_url_list = [i.get('value') for i in _pkg.get('extras') if i.get('state') == 'active' and i.get('key') == 'image_url']
         if img_url_list:
-            _pkg['img_url'] = img_url_list[0]
+            image_url = img_url_list[0]
+            _pkg['img_url'] = image_url
+            _pkg[u'image_url'] = image_url
+            _pkg[u'image_display_url'] = image_url
+            if image_url and not image_url.startswith('http'):
+                _pkg[u'image_display_url'] = \
+                    h.url_for_static('uploads/{0}/{1}'
+                                     .format('showcase', image_url),
+                                     qualified=True)
         showcase_list.append(_pkg)
 
     return showcase_list
