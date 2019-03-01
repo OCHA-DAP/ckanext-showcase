@@ -3,6 +3,7 @@ import sqlalchemy
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.dictization.model_dictize as model_dictize
 import ckan.lib.helpers as h
+import ckan.logic as logic
 
 from ckan.lib.navl.dictization_functions import validate
 from ckan.logic import NotAuthorized
@@ -14,6 +15,7 @@ from ckanext.showcase.model import ShowcasePackageAssociation, ShowcaseAdmin
 import logging
 log = logging.getLogger(__name__)
 
+NotFound = logic.NotFound
 _select = sqlalchemy.sql.select
 _and_ = sqlalchemy.and_
 
@@ -30,7 +32,11 @@ def showcase_show(context, data_dict):
 
     pkg_dict = toolkit.get_action('package_show')(context, data_dict)
 
-    return pkg_dict
+    if 'type' in pkg_dict and pkg_dict.get('type') == 'showcase':
+        return pkg_dict
+    if 'type' in pkg_dict and pkg_dict.get('type') == 'dataset':
+        raise NotFound("Showcase is not found, but there is a dataset with this id/name")
+    raise NotFound("Showcase is not found")
 
 
 @toolkit.side_effect_free

@@ -142,7 +142,7 @@ class ShowcaseController(PackageController):
 
         # check if showcase exists
         try:
-            c.pkg_dict = get_action('package_show')(context, data_dict)
+            c.pkg_dict = get_action('ckanext_showcase_show')(context, data_dict)
         except NotFound:
             abort(404, _('Showcase not found'))
         except NotAuthorized:
