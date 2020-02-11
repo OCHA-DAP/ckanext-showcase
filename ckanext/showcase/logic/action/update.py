@@ -17,6 +17,9 @@ def showcase_update(context, data_dict):
     except AttributeError:
         upload = uploader.Upload('showcase', data_dict['image_url'])
 
+    if 'image_upload' in data_dict:
+        # mimetype is needed before uploading to AWS S3
+        upload.mimetype = getattr(data_dict['image_upload'], 'type', 'application/octet-stream')
     upload.update_data_dict(data_dict, 'image_url',
                             'image_upload', 'clear_upload')
 
