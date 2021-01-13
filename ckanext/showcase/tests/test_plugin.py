@@ -145,7 +145,7 @@ class TestDatasetView(ShowcaseFunctionalTestBase):
         dataset = factories.Dataset(name='my-dataset')
 
         response = app.get(
-            url=url_for(controller='package', action='read', id=dataset['id'])
+            url=url_for('dataset_read', id=dataset['id'])
         )
         # response contains link to dataset's showcase list
         nosetools.assert_true('/dataset/showcases/{0}'.format(dataset['name']) in response)
