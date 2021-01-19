@@ -9,7 +9,8 @@ import ckan.lib.helpers as h
 import ckan.lib.navl.dictization_functions as dict_fns
 import ckan.logic as logic
 import ckan.plugins as p
-from ckan.common import OrderedDict, ungettext
+from collections import OrderedDict
+from ckan.common import ungettext
 from ckan.controllers.package import (PackageController,
                                       url_with_params,
                                       _encode_params)
