@@ -100,7 +100,7 @@ def showcase_show_schema():
     schema['metadata_modified'] = []
     schema['creator_user_id'] = []
     schema['num_tags'] = []
-    schema['revision_id'] = []
+    schema['revision_id'] = [ignore_missing]
     schema['tracking_summary'] = []
 
     schema.update({
