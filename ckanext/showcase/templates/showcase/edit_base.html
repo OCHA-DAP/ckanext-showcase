@@ -6,7 +6,8 @@
 
 {% block styles %}
   {{ super() }}
-  {% resource "showcase/ckanext_showcase.css" %}
+{#  {% resource "showcase/ckanext_showcase.css" %}#}
+  {% asset 'showcase/main-styles' %}
 {% endblock %}
 
 {% block breadcrumb_content_selected %}{% endblock %}

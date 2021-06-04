@@ -1,0 +1,21 @@
+common-js: &common-js
+  filters: rjsmin
+
+common-css: &common-css
+  filters: cssrewrite
+
+main-styles:
+  output: ckanext-showcase/%(version)s_main-styles.css
+  contents:
+    - ckanext_showcase.css
+
+ckeditor-styles:
+  output: ckanext-showcase/%(version)s_ckeditor-styles.css
+  contents:
+    - ckeditor-content-style.css
+
+ckeditor-scripts:
+  output: ckanext-showcase/%(version)s_ckeditor-scripts.js
+  contents:
+    - dist/ckeditor.js
+    - js/showcase-ckeditor.js
