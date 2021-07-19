@@ -2,11 +2,11 @@
    these badges work. The necessary Travis and Coverage config files have been
    generated for you.
 
-.. image:: https://travis-ci.org/ckan/ckanext-showcase.svg?branch=master
-    :target: https://travis-ci.org/ckan/ckanext-showcase
+.. image:: https://github.com/ckan/ckanext-showcase/workflows/Tests/badge.svg?branch=master
+    :target: https://github.com/ckan/ckanext-showcase/actions
 
-.. image:: https://coveralls.io/repos/ckan/ckanext-showcase/badge.svg
-  :target: https://coveralls.io/r/ckan/ckanext-showcase
+.. image:: https://codecov.io/gh/ckan/ckanext-showcase/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/ckan/ckanext-showcase
 
 ================
 ckanext-showcase
@@ -31,7 +31,7 @@ Requirements
 ------------
 
 
-Compatible with CKAN 2.3+.
+Compatible with CKAN 2.9.
 
 N.B. The ``migrate`` command, detailed below, requires the Related Item models
 and actions, which have been removed in CKAN 2.6. If you wish to migrate your
@@ -139,6 +139,22 @@ Showcase admin actions::
 
     - list showcase admins (sysadmins only)
     curl -X POST http://127.0.0.1:5000/api/3/action/ckanext_showcase_admin_list -H "Authorization:{YOUR-API-KEY}" -d ''
+
+
+---
+UI
+---
+
+The Showcase extension adds the following pages to the user interface:
+
+
+* The main showcase index is available on: ``http://127.0.0.1:5000/showcase``
+
+* To create a new showcase: ``http://127.0.0.1:5000/showcase/new``
+
+* To edit or delete a showcase: ``http://127.0.0.1:5000/showcase/edit/{showcase-name}``
+
+* To add a Showcase Admin : ``http://127.0.0.1:5000/ckan-admin/showcase_admins``
 
 
 ----------------------------
