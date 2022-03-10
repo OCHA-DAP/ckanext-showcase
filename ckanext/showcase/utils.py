@@ -105,7 +105,7 @@ def manage_datasets_view(id):
     data_dict = {'id': id}
 
     try:
-        tk.check_access('ckanext_showcase_update', context)
+        tk.check_access('ckanext_showcase_update', context, data_dict)
     except tk.NotAuthorized:
         return tk.abort(
             401,
