@@ -38,7 +38,8 @@ def check_edit_view_auth(id):
     }
 
     try:
-        tk.check_access('ckanext_showcase_update', context)
+        data_dict = {'id': id}
+        tk.check_access('ckanext_showcase_update', context, data_dict)
     except tk.NotAuthorized:
         return tk.abort(
             401,
@@ -61,7 +62,8 @@ def check_new_view_auth():
     # may not work if we allow other users to create Showcases, who don't
     # have access to create dataset package types. Same for edit below.
     try:
-        tk.check_access('ckanext_showcase_create', context)
+        data_dict = {'id': id}
+        tk.check_access('ckanext_showcase_create', context, data_dict)
     except tk.NotAuthorized:
         return tk.abort(401, _('Unauthorized to create a package'))
 
