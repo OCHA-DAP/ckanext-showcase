@@ -30,14 +30,9 @@ ckanext-showcase is intended to be a more powerful replacement for the
 Requirements
 ------------
 
+Tested on CKAN 2.9 and 2.10.
 
-Compatible with CKAN 2.9.
-
-N.B. The ``migrate`` command, detailed below, requires the Related Item models
-and actions, which have been removed in CKAN 2.6. If you wish to migrate your
-Related Items, please first upgrade CKAN to 2.5, do the migration, then
-continue upgrading to CKAN 2.6+.
-
+Note: Use `1.5.2` for older CKAN versions (2.7 and 2.8).
 
 ------------
 Installation
@@ -75,7 +70,7 @@ do::
 
     git clone https://github.com/ckan/ckanext-showcase.git
     cd ckanext-showcase
-    python setup.py develop
+    pip install -e .
     pip install -r dev-requirements.txt
 
 
@@ -86,11 +81,14 @@ repository contains all the files needed to edit and customize it if needed::
     npm install
     npx webpack --config webpack.config.js
 
-The webpack will use as entrypoint a file located in `ckanext/showcase/fanstatic/src/ckeditor.js`,
-create a build and save it to `ckanext/showcase/fanstatic/dist/ckeditor.js`
+Build anatomy
+ * assets/build/ckeditor.js - The ready-to-use editor bundle, containing the editor and all plugins.
+ * assets/js/showcase-editor - The CKAN module that will load and config the bundle when using it as data-module attribute.
+ * assets/src/ckeditor.js - The source entry point of the build. Based on it the build/ckeditor.js file is created by webpack. It defines the editor creator, the list of plugins and the default configuration of a build.
+ * webpack.config.js - The webpack configuration used to build the editor.
 
 More info on how to build CKEditor from source:
-https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/advanced-setup.html#scenario-2-building-from-source
+https://ckeditor.com/docs/ckeditor5/latest/installation/getting-started/quick-start-other.html#building-the-editor-from-source
 
 
 ---
@@ -157,30 +155,6 @@ The Showcase extension adds the following pages to the user interface:
 * To add a Showcase Admin : ``http://127.0.0.1:5000/ckan-admin/showcase_admins``
 
 
-----------------------------
-Migrating from Related Items
-----------------------------
-
-If you already have Related Items in your database, you can use the ``showcase
-migrate`` command to create Showcases from Related Items.
-
-From the ``ckanext-showcase`` directory::
-
-    paster showcase migrate -c {path to production.ini}
-
-Note that each Related Item must have a unique title before migration can
-proceed. If you prefer resolving duplicates as showcases, you can use the --allow-duplicates
-option to migrate them anyways. Duplicate Relations will be created as
-'duplicate_' + original_related_title + '_' + related_id
-
-    paster showcase migrate -c {path to production.ini} --allow-duplicates
-
-The Related Item property ``type`` will become a Showcase tag. The Related Item
-properties ``created``, ``owner_id``, ``view_count``, and ``featured`` have no
-equivalent in Showcases and will not be migrated.
-
-Related Item data is not removed from the database by this command.
-
 ---------------------
 Configuration
 ---------------------
@@ -199,7 +173,7 @@ HTML you can use the ```showcase markdown_to_html``` command.
 
 From the ``ckanext-showcase`` directory::
 
-    paster showcase markdown-to-html -c {path to production.ini}
+    ckan -c {path to production.ini} showcase markdown-to-html
 
 -----------------
 Running the Tests
@@ -207,12 +181,7 @@ Running the Tests
 
 To run the tests, do::
 
-    nosetests --ckan --nologcapture --with-pylons=test.ini
-
-To run the tests and produce a coverage report, first make sure you have
-coverage installed in your virtualenv (``pip install coverage``) then run::
-
-    nosetests --ckan --nologcapture --with-pylons=test.ini --with-coverage --cover-package=ckanext.showcase --cover-inclusive --cover-erase --cover-tests
+    pytest --ckan-ini=test.ini ckanext/showcase/tests
 
 
 ------------------------------------
@@ -288,3 +257,4 @@ See: "Internationalizing strings in extensions" : http://docs.ckan.org/en/latest
 3. Compile your language catalog ( You can force pybabel compile to compile messages marked as fuzzy with the -f)
 
        python setup.py compile_catalog -f -l es
+
