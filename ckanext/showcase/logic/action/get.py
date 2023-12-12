@@ -13,8 +13,8 @@ import logging
 log = logging.getLogger(__name__)
 
 NotFound = toolkit.ObjectNotFound
-_select = sqlalchemy.sql.select
-_and_ = sqlalchemy.and_
+# _select = sqlalchemy.sql.select
+# _and_ = sqlalchemy.and_
 
 
 @toolkit.side_effect_free
