@@ -76,6 +76,8 @@ def read_view(id):
     # check if showcase exists
     try:
         tk.g.pkg_dict = tk.get_action('package_show')(context, data_dict)
+        if tk.g.pkg_dict.get('type') != 'showcase':
+            return tk.abort(404, _('Showcase not found'))
     except tk.ObjectNotFound:
         return tk.abort(404, _('Showcase not found'))
     except tk.NotAuthorized:
