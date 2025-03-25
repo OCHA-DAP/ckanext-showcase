@@ -56,7 +56,8 @@ class ShowcasePlugin(plugins.SingletonPlugin, lib_plugins.DefaultDatasetForm):
         tk.add_template_directory(config, 'templates')
         tk.add_public_directory(config, 'public')
         tk.add_resource('assets', 'showcase')
-        tk.add_ckan_admin_tab(config, 'showcase_blueprint.admins', 'Showcase Config')
+        # TODO
+        # tk.add_ckan_admin_tab(config, 'showcase_blueprint.admins', 'Showcase Config')
 
     # IConfigurable
 

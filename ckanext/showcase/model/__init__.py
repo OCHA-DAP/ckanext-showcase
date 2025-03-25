@@ -21,9 +21,10 @@ def setup():
         define_showcase_package_association_table()
         log.debug('ShowcasePackageAssociation table defined in memory')
 
-    if model.package_table.exists():
-        if not showcase_package_assocation_table.exists():
-            showcase_package_assocation_table.create()
+    engine = model.ensure_engine()
+    if model.package_table.exists(engine):
+        if not showcase_package_assocation_table.exists(engine):
+            showcase_package_assocation_table.create(engine)
             log.debug('ShowcasePackageAssociation table create')
         else:
             log.debug('ShowcasePackageAssociation table already exists')
@@ -35,9 +36,9 @@ def setup():
         define_showcase_admin_table()
         log.debug('ShowcaseAdmin table defined in memory')
 
-    if model.user_table.exists():
-        if not showcase_admin_table.exists():
-            showcase_admin_table.create()
+    if model.user_table.exists(engine):
+        if not showcase_admin_table.exists(engine):
+            showcase_admin_table.create(engine)
             log.debug('ShowcaseAdmin table create')
         else:
             log.debug('ShowcaseAdmin table already exists')
